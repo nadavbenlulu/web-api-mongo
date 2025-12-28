@@ -19,17 +19,22 @@ app.use('/category',categoryrouter);
 const mongoUser=process.env.MONGO_USER;
 const mongoPass=process.env.MONGO_PASS;
 const mongoServer=process.env.MONGO_SERVER;
-const mongoConstr=`mongodb+srv://${mongoUser}:${mongoPass}:${mongoServer}/appName=Cluster0`;
-console.log(mongoConstr)
+const mongoConstr = `mongodb+srv://${mongoUser}:${mongoPass}@${mongoServer}/?appName=Cluster0`;
+
+
+
+// const mongoConstr=`mongodb+srv://${mongoUser}:${mongoPass}:${mongoServer}/appName=Cluster0`;
+// console.log(mongoConstr)
 mongoose.connect(mongoConstr).then((stat)=>{
     console.log("connected to mongodb");
 })
-
-
-
-
-
-
+const productSchema= new mongoose.Schema({
+    pid:Number,
+    price:Number,
+    pname:String
+});
+const Product= new mongoose.model('products',productSchema);
+Product.insertOne({pid:2,price:40,pname:"milk"});
 
 
 
