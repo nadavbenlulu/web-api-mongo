@@ -20,11 +20,6 @@ const mongoUser=process.env.MONGO_USER;
 const mongoPass=process.env.MONGO_PASS;
 const mongoServer=process.env.MONGO_SERVER;
 const mongoConstr = `mongodb+srv://${mongoUser}:${mongoPass}@${mongoServer}/?appName=Cluster0`;
-
-
-
-// const mongoConstr=`mongodb+srv://${mongoUser}:${mongoPass}:${mongoServer}/appName=Cluster0`;
-// console.log(mongoConstr)
 mongoose.connect(mongoConstr).then((stat)=>{
     console.log("connected to mongodb");
 })
