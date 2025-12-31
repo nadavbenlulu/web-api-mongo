@@ -29,7 +29,29 @@ const productSchema= new mongoose.Schema({
     pname:String
 });
 const Product= new mongoose.model('products',productSchema);
-Product.insertOne({pid:2,price:40,pname:"milk"});
+Product.insertOne({pid:12,price:20,pname:"gum"});
+Product.find({pid:{$gt:3}},{pid:1,price:1,_id:0,pname:1}).then( (product)=>{
+    console.log(product);
+});
+
+// הוספת מוצר חדש
+// async function addProduct() {
+//   await Product.create({ pid: 12, price: 20, pname: "gum" });
+//   console.log("product added");
+// }
+// addProduct();
+
+
+Product.deleteMany({ pid: 8 })
+  .then(r => {
+    console.log("deleted:", r.deletedCount);
+    return Product.find({ pid: 8 });
+  })
+  .then(list => {
+    console.log("after delete:", list);
+  });
+
+
 
 
 

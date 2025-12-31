@@ -1,34 +1,43 @@
 const mongoose=require('mongoose');
-let obj={
+const Product = require("../models/product");
+
+const obj={
     getAllProducts:(req,res)=>{
-        const productSchema=new mongoose.Schema({
-            pid:Number,
-            price:Number,
-            pname:String
-        });
-        const Product=mongoose.model('products',productSchema);
-        Product.find().then((data)=>{
-             return res.status(200).json(data);
-            
-        });
-       
+         Product.find().then((data)=>{
+      return res.status(200).json(data);
+        }); 
     },
     getProductById:(req,res)=>{
-
-        return res.status(200).json({message:`Get Product By Id`});
+          const id=req.params.id;
+      Product.find({pid:id}).then((prod)=>{
+         return res.status(200).json(prod);
+      })
     },
-        updateProductById:(req,res)=>{ // /product/66
-        let id=req.params.id;
-        return res.status(200).json({message:`update product id ${id} `});
+        updateProductById:(req,res)=>{
+               const pid=req.params.id;
+      Product.updateOne({pid},req.body).then((prod)=>{
+         return res.status(200).json(prod);
+      });
     },
     deleteProductById:(req,res)=>{
-
-        let id=req.params.id;
-        return res.status(200).json({message:`Delete product id ${id} `});
+           const pid=req.params.id;
+      Product.deleteOne({pid}).then((prod)=>{
+         return res.status(200).json(prod);
+      })
     },
     addProduct:(req,res)=>{
-
-        return res.status(200).json({message:`New Product`});
+          const pid = req.body.pid;
+  Product.find({ pid: pid }).then((data) => {
+    if (data.length > 0) {
+      return res
+        .status(200)
+        .json({ message: `product id ${pid} already exist` });
+    } else {
+      Product.insertOne(req.body).then((prod) => {
+        return res.status(200).json(prod);
+      });
+    }
+  });
     }
 };
 
